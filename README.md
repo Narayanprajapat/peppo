@@ -1,2 +1,2 @@
 # Peppo Assignments 
-Customer Capture Information API's
+Customer Information capture API's
