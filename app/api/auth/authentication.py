@@ -200,7 +200,7 @@ def user_profile_api(request):
         return response_maker({"message": "Invalid Input", "status_code": 400}, 400)
 
     if token == '' or token is None:
-        return response_maker({'message': 'Unauthorized User', 'status_code': 401}, 401)
+        return response_maker({'message': 'Unauthorized User', "redirect_url": "/api/user/login", 'status_code': 401}, 401)
 
     if firstname == "":
         return response_maker({'message': 'Invalid Input First Name'}, 400)
@@ -227,7 +227,7 @@ def user_profile_api(request):
         token = token_decode(token)
 
         query = {"email": token['email']}
-        sort = {"_id": 1, "email_verify": 1}
+        sort = {"email_verify": 1}
 
         user_id = Authentication().read(query, sort)
         if not user_id['email_verify']:
@@ -269,58 +269,17 @@ def user_profile_api(request):
 
         user_id_query = {"user_id": user_id}
 
-        if Mobile().read(user_id_query, {}) is None:
-            Mobile().create(mobile_payload)
-
         if Name().read(user_id_query, {}) is None:
             Name().create(name_payload)
+
+        if Mobile().read(user_id_query, {}) is None:
+            Mobile().create(mobile_payload)
 
         if Address().read(user_id_query, {}) is None:
             Address().create(address_payload)
 
-        Authentication().update(query, {"$set": {"profile": True}})
+        Authentication().update(query, {"$set": {"profile": True, 'updated_at': datetime.now()}})
         return response_maker({'message': 'success', 'status_code': 200}, 200)
     except Exception as e:
         print(e)
         return response_maker({'message': 'Internal Server Error'}, 500)
-
-
-def user_forgot_password_api(request):
-    try:
-        email = request.form['email']
-    except Exception as e:
-        print(e)
-        return response_maker({"message": "Invalid Input", "status_code": 400}, 400)
-
-    if email == "":
-        return response_maker({'message': 'Invalid Input Email'}, 400)
-
-    try:
-        # email validation
-        if email.find('@') == -1 or email.find('.') == -1:
-            return response_maker({'message': 'Email Is Invalid', "status_code": 400}, 400)
-
-        # validating user with database.
-        query = {"email": email}
-        resp = Authentication().read(query, {})
-
-        if resp is None:
-            return response_maker({'message': 'User Not Exist', "status_code": 400}, 400)
-
-        # otp generator
-        otp = random.randint(100000, 999999)
-
-        # payload
-        payload = {
-            "$set": {
-                'otp': otp,
-                'updated_at': datetime.now(),
-            }
-        }
-        Authentication().update(query, payload)
-        otp_sender(email, email, otp, "Forgot Password Verification Code")
-        return response_maker({'message': 'success', "status_code": 200}, 200)
-    except Exception as e:
-        print('{}'.format(e))
-        return response_maker({'message': 'Internal Server Error', "status_code": 500}, 500)
-

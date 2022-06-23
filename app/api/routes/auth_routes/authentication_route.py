@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 
 from app.api.auth.authentication import user_registered_api, user_account_verification_api, user_login_api, \
-    user_profile_api, user_forgot_password_api
+    user_profile_api
 
 authentication = Blueprint('authentication', __name__, static_folder='static', template_folder='templates')
 
@@ -24,8 +24,3 @@ def user_login():
 @authentication.route('/api/user/profile', methods=['POST'])
 def user_profile():
     return user_profile_api(request)
-
-
-@authentication.route('/api/user/forgot/password', methods=['POST'])
-def user_forgot_password():
-    return user_forgot_password_api(request)
