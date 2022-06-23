@@ -21,4 +21,4 @@ app.register_blueprint(client)
 # Run complete application
 if __name__ == '__main__':
     app.secret_key = 'mysecret'
-    app.run(debug='false', host='0.0.0.0', port='5001')
+    app.run(debug='false', host='0.0.0.0', port='5000')
