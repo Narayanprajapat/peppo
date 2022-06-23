@@ -7,7 +7,7 @@ mongo = pymongo.MongoClient(
     os.environ.get("DATABASE_URL"),
     connect=False,
 )
-database_name = mongo['EasyArab']
+database_name = mongo['Peppo']
 
 
 class Authentication:
