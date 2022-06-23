@@ -8,7 +8,7 @@ from flask import make_response, jsonify
 import random
 import os
 import hashlib
-from app.api.models.authentication_model import Authentication
+from app.api.models.auth_models.authentication_model import Authentication
 from dotenv import load_dotenv
 
 load_dotenv()

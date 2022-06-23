@@ -1,9 +1,8 @@
 # Import Modules
 from flask import Flask
 from flask_cors import CORS
-import os
 # Import Route Functions
-from app.api.routes.authentication_route import authentication
+from app.api.routes.auth_routes.authentication_route import authentication
 
 # Define App
 app = Flask(__name__)
