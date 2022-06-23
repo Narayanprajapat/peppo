@@ -9,4 +9,5 @@ Untitled.ipynb
 _pycache_
 __pycache__/
 .env.dev
+/.env.dev
 */**/__pycache__/*
