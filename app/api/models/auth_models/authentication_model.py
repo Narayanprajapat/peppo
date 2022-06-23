@@ -1,4 +1,3 @@
-import ssl
 import pymongo
 import os
 
