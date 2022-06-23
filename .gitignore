@@ -1,0 +1,12 @@
+venv
+.idea
+.vscode
+Untitled.ipynb
+.ipynb_checkpoints
+.cpython
+.pyc
+.cpython-39.pyc
+_pycache_
+__pycache__/
+.env
+*/**/__pycache__/*
